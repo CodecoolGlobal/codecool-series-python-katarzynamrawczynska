@@ -35,3 +35,9 @@ def get_all_shows():
     JOIN genres on show_genres.genre_id = genres.id
     GROUP BY shows.id
     ORDER BY rating_string DESC;''')
+
+def get_house_characters():
+    return data_manager.execute_select('''SELECT sch.id,  sch.character_name
+    FROM shows s
+    JOIN show_characters sch ON s.id = sch.show_id
+    WHERE s.title = 'House' ''')

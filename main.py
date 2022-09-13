@@ -31,6 +31,10 @@ def show(show_id):
 def main():
     app.run(debug=False)
 
+@app.route('/pa2')
+def index():
+    characters = queries.get_house_characters()
+    return render_template('house.html', characters=characters)
 
 if __name__ == '__main__':
     main()
