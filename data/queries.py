@@ -36,8 +36,18 @@ def get_all_shows():
     GROUP BY shows.id
     ORDER BY rating_string DESC;''')
 
+
 def get_house_characters():
-    return data_manager.execute_select('''SELECT sch.id,  sch.character_name
+    return data_manager.execute_select('''SELECT sch.id,  sch.character_name, sch.actor_id
     FROM shows s
     JOIN show_characters sch ON s.id = sch.show_id
     WHERE s.title = 'House' ''')
+
+
+def get_actor_details(actor_id):
+    return data_manager.execute_select('''SELECT name
+      ,birthday
+      ,death
+      ,biography
+  FROM actors
+  WHERE id =  %(id)s ''', {'id': actor_id})

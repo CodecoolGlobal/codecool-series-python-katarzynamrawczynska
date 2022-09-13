@@ -36,5 +36,9 @@ def index():
     characters = queries.get_house_characters()
     return render_template('house.html', characters=characters)
 
+@app.route('/api/actor/<actor_id>')
+def get_data_for_dates(actor_id):
+    return queries.get_actor_details(actor_id)
+
 if __name__ == '__main__':
     main()
