@@ -16,6 +16,17 @@ def index():
 def design():
     return render_template('design.html')
 
+@app.route('/shows/most-rated/<int:id>')
+def most_rated(id):
+    offset = (id-1)*15
+    shows = queries.get_most_rated_shows(offset)
+    #shows = shows[::-1]
+    return render_template('most-rated.html', shows=shows)
+
+@app.route('/tv-show/<int:show_id>', methods=["GET", "POST"])
+def show(show_id):
+    shows = queries.get_all_shows()
+    return render_template("show.html", shows=shows, show_id=show_id)
 
 def main():
     app.run(debug=False)
