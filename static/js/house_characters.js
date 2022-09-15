@@ -1,23 +1,21 @@
 function buildResult(data){
-    let myList = document.getElementById('my-list')
-    myList.innerHTML = '';
-    for (const person of data){
-        myList.innerHTML += `
-            <li>${person.name}</li>
-        `
-    }
+    let details = document.getElementById('actor-details')
+    details.innerHTML = ` <p>${data["name"]}</p>  <p>${data["birthday"]}</p>`;
 }
 
 function getActorInfo(){
-    const characterDetails = document.getElementByClassName("characterDetails");
+    let characterDetails = document.getElementsByClassName("character_name")
+
     for (let i = 0; i< characterDetails.length; i++){
         characterDetails[i].addEventListener('click', ()=> {
-        return fetch(`http://127.0.0.1:5000/actor/`+ characterDetails[i].actor_id)
+        return fetch(`http://127.0.0.1:5000/api/actor/`+ characterDetails[i].id)
             .then((res) => res.json())
             .then((data) => {
-                buildResult(data);
+                console.log(data)
+                buildResult(data[0]);
             })
     })
 }
-
+    console.log(characterDetails[0])
 }
+getActorInfo()

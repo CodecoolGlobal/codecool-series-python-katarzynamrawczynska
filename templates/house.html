@@ -47,7 +47,7 @@
             <ul>
                 {% for character in characters %}
                     <li>
-                        <p class="character_name" id = "{{ character['id'] }}">{{ character['character_name'] }}</p>
+                        <p class="character_name" id = "{{ character['actor_id'] }}">{{ character['character_name'] }}</p>
                     </li>
                 {% endfor %}
             </ul>
@@ -63,5 +63,7 @@
     <div class="dark-blue-layer"></div>
     <div class="light-blue-layer"></div>
 </div>
+<script type="module" src="{{ url_for('static', filename='js/house_characters.js') }}"></script>
+
 </body>
 </html>

@@ -1,10 +1,11 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, jsonify
 from data import queries
 import math
 from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask('codecool_series')
+
 
 @app.route('/')
 def index():
@@ -16,6 +17,7 @@ def index():
 def design():
     return render_template('design.html')
 
+
 @app.route('/shows/most-rated/<int:id>')
 def most_rated(id):
     offset = (id-1)*15
@@ -23,22 +25,27 @@ def most_rated(id):
     #shows = shows[::-1]
     return render_template('most-rated.html', shows=shows)
 
+
 @app.route('/tv-show/<int:show_id>', methods=["GET", "POST"])
 def show(show_id):
     shows = queries.get_all_shows()
     return render_template("show.html", shows=shows, show_id=show_id)
 
+
 def main():
     app.run(debug=False)
 
+
 @app.route('/pa2')
-def index():
+def get_house_characters():
     characters = queries.get_house_characters()
     return render_template('house.html', characters=characters)
 
-@app.route('/api/actor/<actor_id>')
+
+@app.route('/api/actor/<int:actor_id>', methods=["GET", "POST"])
 def get_data_for_dates(actor_id):
-    return queries.get_actor_details(actor_id)
+    return jsonify(queries.get_actor_details(actor_id))
+
 
 if __name__ == '__main__':
     main()
