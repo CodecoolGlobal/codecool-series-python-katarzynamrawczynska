@@ -3,7 +3,7 @@ import psycopg2
 import psycopg2.extras
 
 
-def establish_connection(connection_data=None):
+def establish_connection():
     """
     Create a database connection based on the :connection_data: parameter
 
@@ -11,13 +11,11 @@ def establish_connection(connection_data=None):
 
     :returns: psycopg2.connection
     """
-    if connection_data is None:
-        connection_data = get_connection_data()
     try:
-        connect_str = "dbname={} user={} host={} password={}".format(connection_data['dbname'],
-                                                                     connection_data['user'],
-                                                                     connection_data['host'],
-                                                                     connection_data['password'])
+        connect_str = "dbname={} user={} host={} password={}".format('cc_series',
+                                                                     'postgres',
+                                                                     'localhost',
+                                                                     'kop17b')
         conn = psycopg2.connect(connect_str)
         conn.autocommit = True
     except psycopg2.DatabaseError as e:
@@ -27,38 +25,11 @@ def establish_connection(connection_data=None):
         return conn
 
 
-def get_unset_vars(var_names):
-    return [name for name in var_names if os.environ.get(name) is None]
 
 
-def unset_var_error_msg(env_vars):
-    return f'You should set environmental variables: {", ".join(env_vars)}'
 
 
-def ensure_var(name):
-    value = os.environ.get(name)
 
-    if not value:
-        raise ValueError(f'Environmental variable should be set: {name}')
-    return value
-
-
-def get_connection_data(db_name=None):
-    """
-    Give back a properly formatted dictionary based on the environment variables values which are started
-    with :MY__PSQL_: prefix
-
-    :db_name: optional parameter. By default it uses the environment variable value.
-    """
-    if db_name is None:
-        db_name = ensure_var('MY_PSQL_DBNAME')
-
-    return {
-        'dbname': db_name,
-        'host': ensure_var('MY_PSQL_HOST'),
-        'password': ensure_var('MY_PSQL_PASSWORD'),
-        'user': ensure_var('MY_PSQL_USER')
-    }
 
 
 def execute_script_file(file_path):
